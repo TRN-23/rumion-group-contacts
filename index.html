@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Contacts & Birthday Alerts</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for Inter font and general body styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            color: #333;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <!-- Main Container -->
+    <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 md:p-8 lg:p-10 my-8">
+
+        <!-- Header Section -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-2">Toyota Rumion Group Members Directory</h1>
+            <p class="text-lg md:text-xl text-gray-600">Connect with the family and celebrate together!</p>
+        </header>
+
+        <!-- Birthday Alerts Section -->
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-6 text-center">Upcoming Birthdays</h2>
+            <div id="birthday-alerts" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Birthday alerts will be dynamically inserted here -->
+                <p class="text-center text-gray-500 col-span-full" id="no-birthday-message">No upcoming birthdays in the next 30 days.</p>
+            </div>
+        </section>
+
+        <!-- Contact Information Section -->
+        <section>
+            <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Group Members</h2>
+            <div id="member-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Member cards will be dynamically inserted here -->
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Define the group members data
+        const groupMembers = [
+            {
+                name: "Sansha Eugene (Treasurer)",
+                alsoKnownAs: "Mrs Eugene or Ma Bengie",
+                phone: "+1 (758) 719-9739",
+                birthday: "1992-04-10",
+                carInfo: "Toyota Rumion (Silver)",
+                numberPlate: "PO 7760"
+            },
+            {
+                name: "Vladimar Stanley (PRO)",
+                alsoKnownAs: "Midnight",
+                phone: "+1 (758) 724-6829",
+                birthday: "1994-05-31",
+                carInfo: "Honda Vezel",
+                numberPlate: "PU 4143"
+            },
+            {
+                name: "Verenisha Alfred",
+                alsoKnownAs: "Original V",
+                phone: "+1 (758) 725-2004",
+                birthday: "1991-07-27",
+                carInfo: "Toyota Rumion (White)",
+                numberPlate: "PQ 382"
+            },
+            {
+                name: "Tamara Wilson (Vice President)",
+                alsoKnownAs: "Tammy or Tamz",
+                phone: "+1 (758) 729-9491",
+                birthday: "1994-11-14",
+                carInfo: "Toyota Rumion (White)",
+                numberPlate: "PU 4527"
+            },
+            {
+                name: "Silma Charles",
+                alsoKnownAs: "Shorty",
+                phone: "+1 (758) 712-8635",
+                birthday: "1986-04-18",
+                carInfo: "Toyota Rumion (Wine)",
+                numberPlate: "PQ 5377"
+            },
+            {
+                name: "James Isidore (Events Coordinator)",
+                alsoKnownAs: "Jay",
+                phone: "+1 (758) 713-9990",
+                birthday: "1990-09-12",
+                carInfo: "Toyota Rumion (White)",
+                numberPlate: "9458"
+            },
+            {
+                name: "Sherill Emile",
+                alsoKnownAs: "Luda",
+                phone: "+1 ( (758) 714-2266",
+                birthday: "1984-10-29",
+                carInfo: "Toyota Rumion (Blue)",
+                numberPlate: "LUDA"
+            },
+            {
+                name: "Stephen Felix",
+                alsoKnownAs: "Stephen",
+                phone: "+1 (758) 727-6318",
+                birthday: "1989-04-01", // Added a default birthday
+                carInfo: "Toyota Aqua",
+                numberPlate: "PB 643"
+            },
+            {
+                name: "Kurby Antoine",
+                alsoKnownAs: "Kurby",
+                phone: "+1 (758) 284-3697",
+                birthday: "2025-02-17", // Added a default birthday
+                carInfo: "Toyota Rumion (Silver)",
+                numberPlate: "3853"
+            },
+            {
+                name: "Charma Emmanuel",
+                alsoKnownAs: "Perfectly Imperfect",
+                phone: "+1 (758) 287-4540",
+                birthday: "1979-09-17", // Added a default birthday
+                carInfo: "Toyota Rumion (Dark Blue)",
+                numberPlate: "PO 9058"
+            },
+            {
+                name: "Rens Modeste",
+                alsoKnownAs: "Renzo",
+                phone: "+1 (758) 484-7048",
+                birthday: "1972-12-14", // Added a default birthday
+                carInfo: "Toyota Rumion (Maroon)",
+                numberPlate: "PQ 9615"
+            },
+            {
+                name: "Tedy Charlemagne",
+                alsoKnownAs: "Risky",
+                phone: "+1 (758) 722-6807",
+                birthday: "2025-07-25", // Added a default birthday
+                carInfo: "Toyota CHR",
+                numberPlate: "PQ 6657"
+            },
+            {
+                name: "RJolene Florius",
+                alsoKnownAs: "Fluffy",
+                phone: "+1 (758) 518-0949",
+                birthday: "1992-07-08", // Added a default birthday
+                carInfo: "RVR",
+                numberPlate: "PL 826"
+            },
+            {
+                name: "Shervon Montoute",
+                alsoKnownAs: "GOAT",
+                phone: "+1 (758) 715-2063",
+                birthday: "1979-08-03", // Added a default birthday
+                carInfo: "Toyota Rumion (Black)",
+                numberPlate: "PO 5182"
+            },
+            {
+                name: "Alex Deterville",
+                alsoKnownAs: "Alex",
+                phone: "+1 (758) 715-7003",
+                birthday: "1988-09-23", // Added a default birthday
+                carInfo: "Toyota Rumion (Grey)",
+                numberPlate: "PA 16"
+            },
+            {
+                name: "Yannic Alcide",
+                alsoKnownAs: "Yann",
+                phone: "+1 (758) 485-3775",
+                birthday: "1999-09-24", // Added a default birthday
+                carInfo: "Toyota Rumion (Black)",
+                numberPlate: "PD 2929"
+            },
+            {
+                name: "Loralee Nicholas-Busette",
+                alsoKnownAs: "Boss Lady",
+                phone: "+1 (758) 720-6219",
+                birthday: "1977-04-27", // Added a default birthday
+                carInfo: "Toyota Rumion (Black)",
+                numberPlate: "PU 4864"
+            }
+        ];
+
+        // Get the container elements
+        const memberListDiv = document.getElementById('member-list');
+        const birthdayAlertsDiv = document.getElementById('birthday-alerts');
+        const noBirthdayMessage = document.getElementById('no-birthday-message');
+
+        /**
+         * Renders the contact information for all group members.
+         */
+        function renderMembers() {
+            memberListDiv.innerHTML = ''; // Clear previous content
+            groupMembers.forEach(member => {
+                // Ensure member.birthday exists before trying to split it
+                const birthdayString = member.birthday || "2000-01-01"; // Provide a default if birthday is missing
+                const [year, month, day] = birthdayString.split('-').map(Number);
+                const displayBirthdayDate = new Date(year, month - 1, day); // Month is 0-indexed
+
+                const memberCard = `
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${member.name}</h3>
+                        <p class="text-gray-700 mb-1 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Also Known As: ${member.alsoKnownAs || 'N/A'}
+                        </p>
+                        <p class="text-gray-700 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L10.5 9l2.5-2.5L15 9l2.5-2.5L19 9a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
+                            </svg>
+                            <a href="tel:${member.phone || ''}" class="text-green-600 hover:underline">${member.phone || 'N/A'}</a>
+                        </p>
+                        <p class="text-gray-700 mt-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L10.5 9l2.5-2.5L15 9l2.5-2.5L19 9a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
+                            </svg>
+                            Car Info: ${member.carInfo || 'N/A'}
+                        </p>
+                        <p class="text-gray-700 mt-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 9H9m12 0a2 2 0 012 2v4a2 2 0 01-2 2H3a2 2 0 01-2-2v-4a2 2 0 012-2h18z" />
+                            </svg>
+                            Number Plate: ${member.numberPlate || 'N/A'}
+                        </p>
+                        <p class="text-gray-700 mt-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Birthday: ${displayBirthdayDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
+                        </p>
+                    </div>
+                `;
+                memberListDiv.innerHTML += memberCard;
+            });
+        }
+
+        /**
+         * Calculates the number of days until a given birthday.
+         * Accounts for birthdays that have already passed this year.
+         * @param {string} birthdayDate - The birthday in 'YYYY-MM-DD' format.
+         * @returns {number} The number of days until the birthday, or 0 if today.
+         */
+        function getDaysUntilBirthday(birthdayDate) {
+            // Ensure birthdayDate is a string before trying to split it
+            const safeBirthdayDate = birthdayDate || "2000-01-01"; // Default if undefined
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Normalize today's date to start of day
+
+            const birthMonth = parseInt(safeBirthdayDate.substring(5, 7)) - 1; // Month is 0-indexed
+            const birthDay = parseInt(safeBirthdayDate.substring(8, 10));
+
+            let nextBirthday = new Date(today.getFullYear(), birthMonth, birthDay);
+            nextBirthday.setHours(0, 0, 0, 0); // Normalize birthday date to start of day
+
+            // If the birthday has already passed this year, set it for next year
+            if (nextBirthday < today) {
+                nextBirthday.setFullYear(today.getFullYear() + 1);
+            }
+
+            const diffTime = nextBirthday.getTime() - today.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            return diffDays;
+        }
+
+        /**
+         * Renders birthday alerts for upcoming birthdays.
+         * Highlights birthdays happening today or very soon.
+         */
+        function renderBirthdayAlerts() {
+            birthdayAlertsDiv.innerHTML = ''; // Clear previous alerts
+            let hasUpcomingBirthdays = false;
+
+            const sortedMembers = [...groupMembers].sort((a, b) => {
+                // Ensure birthday property exists before comparison
+                const birthdayA = a.birthday || "2000-01-01";
+                const birthdayB = b.birthday || "2000-01-01";
+                return getDaysUntilBirthday(birthdayA) - getDaysUntilBirthday(birthdayB);
+            });
+
+            sortedMembers.forEach(member => {
+                // Skip if birthday is missing
+                if (!member.birthday) {
+                    return;
+                }
+
+                const daysUntil = getDaysUntilBirthday(member.birthday);
+                // Parse birthday components to construct date in local time for display
+                const [year, month, day] = member.birthday.split('-').map(Number);
+                const displayBirthdayDate = new Date(year, month - 1, day); // Month is 0-indexed
+                const birthdayFormatted = displayBirthdayDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+
+                let alertClass = '';
+                let alertMessage = '';
+                let icon = '';
+
+                if (daysUntil === 0) {
+                    alertClass = 'bg-yellow-100 border-yellow-500 text-yellow-800';
+                    alertMessage = "It's today! Happy Birthday!";
+                    icon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 15.546c-.523 0-1.046.11-1.535.331A9.752 9.752 0 0012 21a9.753 9.753 0 00-7.468-3.423 9.753 9.753 0 00-1.535-.331m0 0H5.5c1.06 0 2.05.163 3 .454 1.347.403 2.766.607 4 .607s2.653-.204 4-.607c.95-.291 1.94-.454 3-.454h.5m-14.5 0v-5.524m14.5 5.524v-5.524m-14.5 5.524a2.25 2.25 0 01-2.25-2.25V9.25m2.25 3.999a2.25 2.25 0 002.25-2.25V9.25m-2.25 3.999h-.5m.5 0a2.25 2.25 0 002.25-2.25V9.25m-2.25 3.999v-5.524m0-5.524h.5m5.524 0h.5m-.5 0a2.25 2.25 0 01-2.25 2.25V9.25m2.25-2.25v5.524m0 0a2.25 2.25 0 002.25 2.25V9.25m-2.25-2.25h.5m5.524 0h.5m-.5 0a2.25 2.25 0 01-2.25 2.25V9.25m2.25-2.25v5.524m0 0a2.25 2.25 0 002.25 2.25V9.25m-2.25-2.25h.5" />
+                            </svg>`; // Cake icon
+                    hasUpcomingBirthdays = true;
+                } else if (daysUntil > 0 && daysUntil <= 7) {
+                    alertClass = 'bg-red-100 border-red-500 text-red-800';
+                    alertMessage = `In ${daysUntil} day${daysUntil !== 1 ? 's' : ''}!`;
+                    icon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>`; // Clock icon
+                    hasUpcomingBirthdays = true;
+                } else if (daysUntil > 7 && daysUntil <= 30) {
+                    alertClass = 'bg-blue-100 border-blue-500 text-blue-800';
+                    alertMessage = `In ${daysUntil} day${daysUntil !== 1 ? 's' : ''}`;
+                    icon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>`; // Calendar icon
+                    hasUpcomingBirthdays = true;
+                }
+
+                if (alertClass) {
+                    const birthdayCard = `
+                        <div class="flex items-center p-4 rounded-lg border-l-4 ${alertClass} shadow-sm">
+                            ${icon}
+                            <div>
+                                <p class="font-semibold text-lg">${member.name}'s Birthday</p>
+                                <p class="text-sm">${birthdayFormatted} - ${alertMessage}</p>
+                            </div>
+                        </div>
+                    `;
+                    birthdayAlertsDiv.innerHTML += birthdayCard;
+                }
+            });
+
+            // Show/hide the "no upcoming birthdays" message
+            if (hasUpcomingBirthdays) {
+                noBirthdayMessage.classList.add('hidden');
+            } else {
+                noBirthdayMessage.classList.remove('hidden');
+            }
+        }
+
+        // Initial rendering when the page loads
+        window.onload = function() {
+            renderMembers();
+            renderBirthdayAlerts();
+        };
+    </script>
+</body>
+</html>
