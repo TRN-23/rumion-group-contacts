@@ -10,8 +10,8 @@
         /* Custom styles for Inter font and general body styling */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
-            color: #333;
+            background-color: #000000; /* Changed to black */
+            color: #FFFFFF; /* Default text color for the body */
         }
         /* Custom scrollbar for better aesthetics */
         ::-webkit-scrollbar {
@@ -33,26 +33,29 @@
 <body class="min-h-screen flex flex-col items-center p-4">
 
     <!-- Main Container -->
-    <div class="w-full max-w-4xl bg-white shadow-xl rounded-xl p-6 md:p-8 lg:p-10 my-8">
+    <!-- Removed bg-white from here to allow body background to show through -->
+    <div class="w-full max-w-4xl shadow-xl rounded-xl p-6 md:p-8 lg:p-10 my-8 bg-gray-900">
 
         <!-- Header Section -->
         <header class="text-center mb-10">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-2">Toyota Rumion Group Members Directory</h1>
-            <p class="text-lg md:text-xl text-gray-600">Connect with the family and celebrate together!</p>
+            <!-- Group Logo added here -->
+            <img src="https://placehold.co/200x80/3366FF/FFFFFF?text=RUMION+GROUP" alt="Toyota Rumion Group Logo" class="mx-auto mb-4 rounded-md shadow-md">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">Toyota Rumion Group Members Directory</h1>
+            <p class="text-lg md:text-xl text-gray-300">Connect with the family and celebrate together!</p>
         </header>
 
         <!-- Birthday Alerts Section -->
         <section class="mb-10">
-            <h2 class="text-3xl font-bold text-indigo-700 mb-6 text-center">Upcoming Birthdays</h2>
+            <h2 class="text-3xl font-bold text-indigo-400 mb-6 text-center">Upcoming Birthdays</h2>
             <div id="birthday-alerts" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Birthday alerts will be dynamically inserted here -->
-                <p class="text-center text-gray-500 col-span-full" id="no-birthday-message">No upcoming birthdays in the next 30 days.</p>
+                <p class="text-center text-gray-400 col-span-full" id="no-birthday-message">No upcoming birthdays in the next 30 days.</p>
             </div>
         </section>
 
         <!-- Contact Information Section -->
         <section>
-            <h2 class="text-3xl font-bold text-green-700 mb-6 text-center">Group Members</h2>
+            <h2 class="text-3xl font-bold text-green-400 mb-6 text-center">Group Members</h2>
             <div id="member-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Member cards will be dynamically inserted here -->
             </div>
@@ -122,7 +125,7 @@
             {
                 name: "Sherill Emile",
                 alsoKnownAs: "Luda",
-                phone: "+1 ( (758) 714-2266",
+                phone: "+1 (758) 714-2266",
                 birthday: "1984-10-29",
                 carInfo: "Toyota Rumion (Blue)",
                 numberPlate: "LUDA"
@@ -234,34 +237,34 @@
                 const displayBirthdayDate = new Date(year, month - 1, day); // Month is 0-indexed
 
                 const memberCard = `
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${member.name}</h3>
-                        <p class="text-gray-700 mb-1 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 text-gray-200">
+                        <h3 class="text-xl font-semibold text-white mb-2">${member.name}</h3>
+                        <p class="mb-1 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             Also Known As: ${member.alsoKnownAs || 'N/A'}
                         </p>
-                        <p class="text-gray-700 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <p class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L10.5 9l2.5-2.5L15 9l2.5-2.5L19 9a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
                             </svg>
-                            <a href="tel:${member.phone || ''}" class="text-green-600 hover:underline">${member.phone || 'N/A'}</a>
+                            <a href="tel:${member.phone || ''}" class="text-green-400 hover:underline">${member.phone || 'N/A'}</a>
                         </p>
-                        <p class="text-gray-700 mt-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <p class="mt-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L10.5 9l2.5-2.5L15 9l2.5-2.5L19 9a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
                             </svg>
                             Car Info: ${member.carInfo || 'N/A'}
                         </p>
-                        <p class="text-gray-700 mt-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <p class="mt-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 9H9m12 0a2 2 0 012 2v4a2 2 0 01-2 2H3a2 2 0 01-2-2v-4a2 2 0 012-2h18z" />
                             </svg>
                             Number Plate: ${member.numberPlate || 'N/A'}
                         </p>
-                        <p class="text-gray-700 mt-2 flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <p class="mt-2 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                             Birthday: ${displayBirthdayDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })}
